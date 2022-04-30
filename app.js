@@ -1,6 +1,7 @@
 const path = require("path");
 
 const express = require("express");
+const expressLayout = require("express-ejs-layouts");
 const dotenv = require("dotenv");
 const morgan = require("morgan");
 
@@ -15,7 +16,9 @@ const app = express();
 
 if (process.env.NODE_ENV == "development") app.use(morgan("dev"));
 
+app.use(expressLayout);
 app.set("view engine", "ejs");
+app.set("layout", "./layouts/main");
 app.set("views", "views");
 
 app.use(express.static(path.join(__dirname, "public")));
