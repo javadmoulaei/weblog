@@ -1,32 +1,26 @@
-<main class="form-signin">
-  <form>
-    <h1 class="h3 mb-3 fw-normal">لطفا وارد شوید.</h1>
-
-    <div class="form-floating">
-      <input
-        type="email"
-        class="form-control"
-        id="floatingInput"
-        placeholder="name@example.com"
-      />
-      <label for="floatingInput">آدرس ایمیل</label>
-    </div>
-    <div class="form-floating">
-      <input
-        type="password"
-        class="form-control"
-        id="floatingPassword"
-        placeholder="Password"
-      />
-      <label for="floatingPassword">رمز عبور</label>
-    </div>
-
-    <div class="checkbox mb-3">
-      <label>
-        <input type="checkbox" value="remember-me" />مرا بخاطر بسپار.</label
-      >
-    </div>
-    <button class="w-100 btn btn-lg btn-primary" type="submit">ورود</button>
-    <p class="mt-5 mb-3 text-muted">&copy; 2017–2021</p>
-  </form>
-</main>
+<form class="form-signin" action="/auth/login" method="POST">
+  <h1 class="h3 mb-3 font-weight-normal">ورود به بخش مدیریت</h1>
+  <label for="inputEmail" class="sr-only">آدرس ایمیل</label>
+  <input
+    type="email"
+    id="inputEmail"
+    class="form-control mb-2"
+    placeholder="آدرس ایمیل"
+    required
+    autofocus
+  />
+  <label for="inputPassword" class="sr-only">کلمه عبور</label>
+  <input
+    type="password"
+    id="inputPassword"
+    class="form-control"
+    placeholder="کلمه عبور"
+    required
+  />
+  <div class="checkbox mb-3">
+    <label>
+      <input type="checkbox" value="remember-me" /> من را به خاطر بسپار
+    </label>
+  </div>
+  <button class="btn btn-lg btn-primary btn-block" type="submit">ورود</button>
+</form>
