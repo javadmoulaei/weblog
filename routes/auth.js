@@ -17,7 +17,10 @@ router.get("/login", (req, res) => {
 });
 
 router.get("/register", (req, res) => {
-  res.render("register", { pageTitle: "ثبت نام", path: "/login" });
+  res.render("register", {
+    pageTitle: "ثبت نام",
+    path: "/register",
+  });
 });
 
 router.post("/register", async (req, res) => {
@@ -25,10 +28,14 @@ router.post("/register", async (req, res) => {
   schema
     .validate(req.body)
     .then((result) => {
-      res.send(result);
+      res.redirect("/auth/login");
     })
     .catch((err) => {
-      res.send(err.errors);
+      res.render("register", {
+        pageTitle: "ثبت نام",
+        path: "/register",
+        errors: err.errors,
+      });
     });
 });
 
