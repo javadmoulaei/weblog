@@ -26,9 +26,12 @@ exports.post = async (req, res) => {
       });
     }
 
-    const hash = await bcrypt.hash(password, process.env.BCRYPT_SALT);
+    const hash = await bcrypt.hash(password, parseInt(process.env.BCRYPT_SALT));
 
     await User.create({ email, fullname, password: hash });
+
+    req.flash("success_register", "ثبت نام با موفقیت انجام شد.");
+
     res.redirect("/auth/login");
   } catch (error) {
     console.log(error);
