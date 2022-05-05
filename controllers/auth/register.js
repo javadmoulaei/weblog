@@ -1,3 +1,5 @@
+const bcrypt = require("bcryptjs");
+
 const User = require("../../models/User");
 
 exports.get = (req, res) => {
@@ -11,8 +13,8 @@ exports.post = async (req, res) => {
   const errors = [];
   try {
     await User.userValidation(req.body);
-
-    const user = await User.findOne({ email: req.body.email });
+    const { fullname, email, password } = req.body;
+    const user = await User.findOne({ email });
 
     if (user) {
       errors.push({ message: "کاربری با این ایمیل ثبت نام کرده است." });
@@ -24,7 +26,9 @@ exports.post = async (req, res) => {
       });
     }
 
-    await User.create(req.body);
+    const hash = await bcrypt.hash(password, process.env.BCRYPT_SALT);
+
+    await User.create({ email, fullname, password: hash });
     res.redirect("/auth/login");
   } catch (error) {
     console.log(error);
