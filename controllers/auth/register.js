@@ -30,7 +30,7 @@ exports.post = async (req, res) => {
 
     await User.create({ email, fullname, password: hash });
 
-    req.flash("success_register", "ثبت نام با موفقیت انجام شد.");
+    req.flash("success_msg", "ثبت نام با موفقیت انجام شد.");
 
     res.redirect("/auth/login");
   } catch (error) {

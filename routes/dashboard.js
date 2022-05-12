@@ -7,6 +7,7 @@ router.get("/", (req, res) => {
     pageTitle: "dashboard",
     path: "/dashboard",
     layout: "./layouts/dashboard",
+    fullname: req.user.fullname,
   });
 });
 
