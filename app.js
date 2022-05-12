@@ -7,12 +7,15 @@ const dotenv = require("dotenv");
 const morgan = require("morgan");
 const flash = require("connect-flash");
 const session = require("express-session");
+const passport = require("passport");
 
 const connectDB = require("./config/db");
 
 dotenv.config({ path: "./config/config.env" });
 
 connectDB();
+
+require("./config/passport");
 
 const app = express();
 
@@ -33,6 +36,9 @@ app.use(
     saveUninitialized: false,
   })
 );
+
+app.use(passport.initialize());
+app.use(passport.session());
 
 app.use(flash());
 
