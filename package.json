@@ -6,7 +6,7 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "start": "cross-env NODE_ENV=production node app",
-    "dev": "cross-env NODE_ENV=development nodemon app"
+    "dev": "cross-env NODE_ENV=development DEBUG=weblog-project nodemon app"
   },
   "author": "Javad Moulaei",
   "license": "ISC",
@@ -15,6 +15,7 @@
     "body-parser": "^1.20.0",
     "connect-flash": "^0.1.1",
     "connect-mongo": "^4.6.0",
+    "debug": "^4.3.4",
     "dotenv": "^16.0.0",
     "ejs": "^3.1.7",
     "express": "^4.17.3",

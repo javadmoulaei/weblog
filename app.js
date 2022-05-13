@@ -1,5 +1,6 @@
 const path = require("path");
 
+const debug = require("debug")("weblog-project");
 const express = require("express");
 const bodyParser = require("body-parser");
 const expressLayout = require("express-ejs-layouts");
@@ -15,13 +16,16 @@ const connectDB = require("./config/db");
 dotenv.config({ path: "./config/config.env" });
 
 connectDB();
+debug("Connected To Database");
 
 require("./config/passport");
 
 const app = express();
 
-if (process.env.NODE_ENV == "development") app.use(morgan("dev"));
-
+if (process.env.NODE_ENV == "development") {
+  app.use(morgan("dev"));
+  debug("Morgan Enabled");
+}
 app.use(bodyParser.urlencoded({ extended: false }));
 
 app.use(expressLayout);
