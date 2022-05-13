@@ -12,6 +12,7 @@ const passport = require("passport");
 const MongoStore = require("connect-mongo");
 
 const connectDB = require("./config/db");
+const winston = require("./config/winston");
 
 dotenv.config({ path: "./config/config.env" });
 
@@ -23,7 +24,7 @@ require("./config/passport");
 const app = express();
 
 if (process.env.NODE_ENV == "development") {
-  app.use(morgan("dev"));
+  app.use(morgan("combined", { stream: winston.stream }));
   debug("Morgan Enabled");
 }
 app.use(bodyParser.urlencoded({ extended: false }));
