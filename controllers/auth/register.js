@@ -1,5 +1,3 @@
-const bcrypt = require("bcryptjs");
-
 const User = require("../../models/User");
 
 exports.get = (req, res) => {
@@ -26,9 +24,7 @@ exports.post = async (req, res) => {
       });
     }
 
-    const hash = await bcrypt.hash(password, parseInt(process.env.BCRYPT_SALT));
-
-    await User.create({ email, fullname, password: hash });
+    await User.create({ email, fullname, password });
 
     req.flash("success_msg", "ثبت نام با موفقیت انجام شد.");
 
