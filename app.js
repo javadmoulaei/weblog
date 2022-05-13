@@ -8,6 +8,7 @@ const morgan = require("morgan");
 const flash = require("connect-flash");
 const session = require("express-session");
 const passport = require("passport");
+const MongoStore = require("connect-mongo");
 
 const connectDB = require("./config/db");
 
@@ -31,9 +32,9 @@ app.set("views", "views");
 app.use(
   session({
     secret: process.env.SESSION_SECRET,
-    cookie: { maxAge: 60000 },
     resave: false,
     saveUninitialized: false,
+    store: MongoStore.create({ mongoUrl: process.env.MONGO_URI }),
   })
 );
 

@@ -11,7 +11,7 @@ exports.get = (req, res) => {
 
 exports.post = (req, res, next) => {
   passport.authenticate("local", {
-    successRedirect: "/dashboard",
+    // successRedirect: "/dashboard",
     failureRedirect: "/auth/login",
     failureFlash: true,
   })(req, res, next);
