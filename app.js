@@ -28,6 +28,7 @@ if (process.env.NODE_ENV == "development") {
   debug("Morgan Enabled");
 }
 app.use(bodyParser.urlencoded({ extended: false }));
+app.use(bodyParser.json());
 
 app.use(expressLayout);
 app.set("view engine", "ejs");
