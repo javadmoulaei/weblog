@@ -4,10 +4,25 @@
 >
   <div class="position-sticky pt-3">
     <ul class="nav flex-column">
-      <li class="nav-item">
-        <a class="nav-link active" aria-current="page" href="#">
-          <span data-feather="home"></span>
+      <li class="nav-item mb-2">
+        <a
+          class="nav-link d-flex align-items-center btn-outline-secondary <%= path=== '/dashboard' ? 'active' :'' %>"
+          aria-current="page"
+          href="/dashboard"
+        >
+          <span class="fa fa-home mr-3"></span>
           داشبورد
+        </a>
+      </li>
+
+      <li class="nav-item mb-2">
+        <a
+          class="nav-link d-flex align-items-center btn-outline-secondary <%= path=== '/dashboard/add-post' ? 'active' :'' %>"
+          aria-current="page"
+          href="/dashboard/add-post"
+        >
+          <span class="fa fa-plus mr-3"></span>
+          ایجاد پست
         </a>
       </li>
     </ul>
