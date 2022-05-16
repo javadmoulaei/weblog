@@ -2,13 +2,8 @@ const { Router } = require("express");
 
 const router = new Router();
 
-router.get("/", (req, res) => {
-  res.render("dashboard", {
-    pageTitle: "dashboard",
-    path: "/dashboard",
-    layout: "./layouts/dashboard",
-    fullname: req.user.fullname,
-  });
-});
+const dashboard = require("./../controllers/admin/dashboard");
+
+router.get("/", dashboard.get);
 
 module.exports = router;
