@@ -52,9 +52,7 @@ app.use(flash());
 app.use(express.static(path.join(__dirname, "public")));
 
 app.use("/", require("./routes"));
-app.use((req, res) => {
-  res.status(404).render("404", { pageTitle: "صفحه یافت نشد", path: "/404" });
-});
+app.use(require("./controllers/errors").get404);
 
 const PORT = process.env.PORT || 5000;
 

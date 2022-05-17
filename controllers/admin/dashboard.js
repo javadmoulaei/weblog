@@ -1,5 +1,6 @@
 const Blog = require("../../models/Blog");
 const { shamsiDate } = require("../../utils/jalali");
+const { get500 } = require("../errors");
 
 exports.get = async (req, res) => {
   try {
@@ -14,6 +15,6 @@ exports.get = async (req, res) => {
       shamsiDate,
     });
   } catch (error) {
-    console.log(error);
+    get500(req, res, error);
   }
 };

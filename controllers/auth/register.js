@@ -1,10 +1,15 @@
 const User = require("../../models/User");
+const { get500 } = require("../errors");
 
 exports.get = (req, res) => {
-  res.render("register", {
-    pageTitle: "ثبت نام",
-    path: "/register",
-  });
+  try {
+    res.render("register", {
+      pageTitle: "ثبت نام",
+      path: "/register",
+    });
+  } catch (error) {
+    get500(req, res, error);
+  }
 };
 
 exports.post = async (req, res) => {

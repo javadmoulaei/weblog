@@ -1,12 +1,17 @@
 const Blog = require("../../models/Blog");
+const { get500 } = require("../errors");
 
 exports.addPostPage = (req, res) => {
-  res.render("private/addPost", {
-    pageTitle: "ایجاد پست",
-    path: "/dashboard/add-post",
-    layout: "./layouts/dashboard",
-    fullname: req.user.fullname,
-  });
+  try {
+    res.render("private/addPost", {
+      pageTitle: "ایجاد پست",
+      path: "/dashboard/add-post",
+      layout: "./layouts/dashboard",
+      fullname: req.user.fullname,
+    });
+  } catch (error) {
+    get500(req, res, error);
+  }
 };
 
 exports.post = async (req, res) => {
@@ -15,6 +20,6 @@ exports.post = async (req, res) => {
 
     res.redirect("/dashboard");
   } catch (error) {
-    console.log(error);
+    get500(req, res, error);
   }
 };
