@@ -1,34 +1,23 @@
 const multer = require("multer");
-const uuid = require("uuid").v4;
+
+const { fileFilter, storage } = require("../../utils/multer");
+const { get500 } = require("../errors");
 
 exports.image = (req, res) => {
-  const storage = multer.diskStorage({
-    destination: (req, file, cb) => {
-      cb(null, "./public/uploads/");
-    },
-    filename: (req, file, cb) => {
-      cb(null, `${uuid()}${file.originalname}`);
-    },
-  });
+  try {
+    const upload = multer({
+      limits: { fileSize: 4000000 },
+      dest: "uploads/",
+      storage,
+      fileFilter,
+    }).single("image");
 
-  const fileFilter = (req, file, cb) => {
-    if (file.mimetype == "image/jpeg") cb(null, true);
-    else cb("تنها پسوند JPEG پشتیبانی میشود", false);
-  };
-
-  const upload = multer({
-    limits: { fileSize: 4000000 },
-    dest: "uploads/",
-    storage,
-    fileFilter,
-  }).single("image");
-
-  upload(req, res, (err) => {
-    if (err) {
-      console.log(err);
-      res.send("عکسی انتخاب نشده.");
-    } else {
-      res.status(200).send("آپلود عکس موفقیت آمیز بود");
-    }
-  });
+    upload(req, res, (err) => {
+      if (err) res.send(err);
+      else if (req.file) res.status(200).send("آپلود عکس موفقیت آمیز بود");
+      else res.send("باید یه عکس انتخاب کنید");
+    });
+  } catch (error) {
+    get500(req, res, error);
+  }
 };
