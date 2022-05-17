@@ -1,5 +1,5 @@
 document.getElementById("imageUpload").onclick = function () {
-  let xhttp = new XMLHttpRequest();
+  let xhttp = new XMLHttpRequest(); // create new AJAX request
 
   const selectedImage = document.getElementById("selectedImage");
   const imageStatus = document.getElementById("imageStatus");
@@ -9,6 +9,14 @@ document.getElementById("imageUpload").onclick = function () {
   };
 
   xhttp.open("POST", "/dashboard/image-upload");
+
+  xhttp.upload.onprogress = function (e) {
+    if (e.lengthComputable) {
+      let result = Math.floor((e.loaded / e.total) * 100);
+      console.log(result + "%");
+    }
+  };
+
   let formData = new FormData();
 
   if (selectedImage.files.length > 0) {
