@@ -8,5 +8,6 @@ const posts = require("./../controllers/admin/posts");
 router.get("/", dashboard.get);
 
 router.get("/add-post", posts.addPostPage);
+router.post("/posts", posts.post);
 
 module.exports = router;
