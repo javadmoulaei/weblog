@@ -18,7 +18,7 @@
         <td>
           <a href="/posts/<%= blogs[index]._id %>"></a><%= blogs[index].title %>
         </td>
-        <td><%= blogs[index].createdAt %></td>
+        <td><%= shamsiDate(blogs[index].createdAt)%></td>
         <td>
           <span
             class="badge <%= blogs[index].status=== 'عمومی'? 'badge-success' : 'badge-warning'%>"

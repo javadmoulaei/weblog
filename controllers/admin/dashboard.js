@@ -1,4 +1,5 @@
 const Blog = require("../../models/Blog");
+const { shamsiDate } = require("../../utils/jalali");
 
 exports.get = async (req, res) => {
   try {
@@ -10,6 +11,7 @@ exports.get = async (req, res) => {
       layout: "./layouts/dashboard",
       fullname: req.user.fullname,
       blogs,
+      shamsiDate,
     });
   } catch (error) {
     console.log(error);
