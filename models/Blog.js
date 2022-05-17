@@ -1,12 +1,14 @@
 const mongoose = require("mongoose");
 
+const { schema } = require("../validation/blog");
+
 const blogSchmea = new mongoose.Schema({
   title: {
     type: String,
     required: true,
     trim: true,
     minlength: 5,
-    maxlength: 255,
+    maxlength: 100,
   },
   body: {
     type: String,
@@ -26,5 +28,9 @@ const blogSchmea = new mongoose.Schema({
     default: Date.now,
   },
 });
+
+blogSchmea.statics.postValidation = function (body) {
+  return schema.validate(body, { abortEarly: false });
+};
 
 module.exports = mongoose.model("Blog", blogSchmea);
