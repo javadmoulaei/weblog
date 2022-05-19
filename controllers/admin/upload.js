@@ -16,8 +16,11 @@ exports.image = (req, res) => {
     }).single("image");
 
     upload(req, res, async (err) => {
-      if (err) res.send(err);
-      else if (req.file) {
+      if (err) {
+        if (err.code === "LOMIT_FILE_SIZE")
+          return res.status(400).send("حجم عکس نباید بیش از ۴ مگابایت باشد");
+        res.send(err);
+      } else if (req.file) {
         const fileName = `${uuid()}${req.file.originalname}`;
 
         await sharp(req.file.path)
