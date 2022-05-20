@@ -1,16 +1,17 @@
 document.getElementById("imageUpload").onclick = function () {
-  let xhttp = new XMLHttpRequest(); // create new AJAX request
+  let xhttp = new XMLHttpRequest();
 
   const selectedImage = document.getElementById("selectedImage");
   const imageStatus = document.getElementById("imageStatus");
   const progressDiv = document.getElementById("progressDiv");
   const progressBar = document.getElementById("progressBar");
-  const uploadResutl = document.getElementById("uploadResult");
+  const uploadResult = document.getElementById("uploadResult");
 
   xhttp.onreadystatechange = function () {
     if (xhttp.status === 200) {
       imageStatus.innerHTML = "آپلود عکس موفقیت آمیز بود";
-      uploadResutl.innerHTML = this.responseText;
+      uploadResult.innerHTML = this.responseText;
+      selectedImage.value = "";
     } else {
       imageStatus.innerHTML = this.responseText;
     }
