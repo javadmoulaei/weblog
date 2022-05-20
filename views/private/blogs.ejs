@@ -25,7 +25,18 @@
             ><%= blogs[index].status %></span
           >
         </td>
-        <td>data</td>
+        <td>
+          <a
+            href="/dashboard/edit-post/<%= blogs[index]._id %>"
+            class="btn btn-sm btn-primary"
+            >ویرایش</a
+          >
+          <a
+            href="/dashboard/delete-post/<%= blogs[index]._id %>"
+            class="btn btn-sm btn-danger"
+            >حذف</a
+          >
+        </td>
       </tr>
       <% } %>
     </tbody>

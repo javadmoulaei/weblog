@@ -1,6 +1,7 @@
 const Blog = require("../../models/Blog");
 const { get500 } = require("../errors");
 
+// create post
 exports.addPostPage = (req, res) => {
   try {
     res.render("private/addPost", {
@@ -36,5 +37,26 @@ exports.post = async (req, res) => {
       fullname: req.user.fullname,
       errors,
     });
+  }
+};
+
+//edit posts
+exports.editPostPage = async (req, res) => {
+  try {
+    const post = await Blog.findById(req.params.id);
+
+    if (!post) return res.render("errors/404");
+
+    if (post.user.toString() != req.user._id) return res.redirect("/dashboard");
+
+    res.render("private/editPost", {
+      pageTitle: "ویرایش پست",
+      path: "/dashboard/edit-post",
+      layout: "./layouts/dashboard",
+      fullname: req.user.fullname,
+      post,
+    });
+  } catch (error) {
+    get500(req, res, error);
   }
 };
