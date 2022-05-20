@@ -60,3 +60,35 @@ exports.editPostPage = async (req, res) => {
     get500(req, res, error);
   }
 };
+
+exports.editPost = async (req, res) => {
+  const errors = [];
+  try {
+    const post = await Blog.findById(req.params.id);
+
+    if (!post) return res.render("errors/404");
+
+    if (post.user.toString() != req.user._id) return res.redirect("/dashboard");
+
+    await Blog.postValidation(req.body);
+    await Blog.updateOne({ _id: post._id }, { ...req.body });
+
+    res.redirect("/dashboard");
+  } catch (error) {
+    error.inner.forEach((element) => {
+      errors.push({
+        name: element.path,
+        message: element.message,
+      });
+    });
+
+    res.render("private/editPost", {
+      pageTitle: "ویرایش پست",
+      path: "/dashboard/edit-post",
+      layout: "./layouts/dashboard",
+      fullname: req.user.fullname,
+      errors,
+      post: await Blog.findById(req.params.id),
+    });
+  }
+};

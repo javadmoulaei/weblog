@@ -12,6 +12,7 @@ router.get("/add-post", posts.addPostPage);
 router.post("/posts", posts.post);
 
 router.get("/edit-post/:id", posts.editPostPage);
+router.post("/edit-post/:id", posts.editPost);
 
 router.post("/image-upload", upload.image);
 module.exports = router;

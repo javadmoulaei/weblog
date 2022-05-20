@@ -18,11 +18,11 @@
     </div>
 
     <div class="form-group">
-      <label for="status">وضعیت</label>
-      <select name="status" class="form-control w-25" id="status">
-        <option value="عمومی" selected>عمومی</option>
-        <option value="خصوصی">خصوصی</option>
-      </select>
+        <label for="status">وضعیت</label>
+        <select name="status" class="form-control w-25" id="status">
+            <option value="<%= post.status %>" selected><%= post.status === "public" ? "عمومی" : "خصوصی" %></option>
+            <option value="<%= post.status === "public" ? "private" : "public" %>"><%= post.status === "public" ? "خصوصی" : "عمومی" %></option>
+        </select>
     </div>
 
     <div class="input-group mb-3">

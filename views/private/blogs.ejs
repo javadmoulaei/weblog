@@ -20,11 +20,10 @@
         </td>
         <td><%= shamsiDate(blogs[index].createdAt)%></td>
         <td>
-          <span
-            class="badge <%= blogs[index].status=== 'عمومی'? 'badge-success' : 'badge-warning'%>"
-            ><%= blogs[index].status %></span
-          >
-        </td>
+          <span class="badge <%= blogs[index].status === "public" ? 'badge-success' : 'badge-warning' %>">
+              <%= blogs[index].status === "public" ? "عمومی" : "خصوصی" %>
+          </span>
+      </td>
         <td>
           <a
             href="/dashboard/edit-post/<%= blogs[index]._id %>"
