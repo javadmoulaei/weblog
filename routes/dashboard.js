@@ -14,5 +14,7 @@ router.post("/posts", posts.post);
 router.get("/edit-post/:id", posts.editPostPage);
 router.post("/edit-post/:id", posts.editPost);
 
+router.get("/delete-post/:id", posts.delete);
+
 router.post("/image-upload", upload.image);
 module.exports = router;
