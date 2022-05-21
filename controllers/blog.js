@@ -32,3 +32,24 @@ exports.get = async (req, res) => {
     get500(req, res, error);
   }
 };
+
+exports.getOne = async (req, res) => {
+  try {
+    const post = await Blog.findById(req.params.id).populate("user");
+
+    if (!post) return res.render("errors/404");
+    if (post.status == "private") return res.render("errors/404");
+
+    post.user = { fullname: post.user.fullname };
+    console.log(post);
+    res.render("post", {
+      pageTitle: post.title,
+      path: `/post`,
+      fullname: req.user.fullname,
+      post,
+      shamsiDate,
+    });
+  } catch (error) {
+    get500(req, res, error);
+  }
+};
