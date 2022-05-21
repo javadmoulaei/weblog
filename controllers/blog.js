@@ -1,6 +1,8 @@
 const Blog = require("../models/Blog");
 const { shamsiDate } = require("../utils/jalali");
+const { truncate } = require("../utils/helpers");
 const { get500 } = require("./errors");
+
 exports.get = async (req, res) => {
   try {
     const page = +req.query.page || 1;
@@ -24,6 +26,7 @@ exports.get = async (req, res) => {
       hasNextPage: limit * page < posts.length,
       hasPreviousPage: page > 1,
       lastPage: Math.ceil(posts.length / limit),
+      truncate,
     });
   } catch (error) {
     get500(req, res, error);
