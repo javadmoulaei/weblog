@@ -1,3 +1,6 @@
+const uuid = require("uuid").v4;
+const appRoot = require("app-root-path");
+const sharp = require("sharp");
 const Blog = require("../../models/Blog");
 const { get500 } = require("../errors");
 
@@ -18,11 +21,28 @@ exports.addPostPage = (req, res) => {
 exports.post = async (req, res) => {
   const errors = [];
   try {
+    const thumbnail = req.files ? req.files.thumbnail : {};
+    const fileName = `${uuid()}${thumbnail.name}`;
+    const uploadPath = `${appRoot}/public/uploads/thumbnails/${fileName}`;
+
+    req.body = { ...req.body, thumbnail };
+
     await Blog.postValidation(req.body);
-    await Blog.create({ ...req.body, user: req.user.id });
+
+    await sharp(thumbnail.data)
+      .jpeg({ quality: 40 })
+      .toFile(uploadPath)
+      .catch((err) => get500(req, res, err));
+
+    await await Blog.create({
+      ...req.body,
+      user: req.user.id,
+      thumbnail: fileName,
+    });
 
     res.redirect("/dashboard");
   } catch (error) {
+    console.log(error);
     error.inner.forEach((element) => {
       errors.push({
         name: element.path,

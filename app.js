@@ -10,6 +10,7 @@ const flash = require("connect-flash");
 const session = require("express-session");
 const passport = require("passport");
 const MongoStore = require("connect-mongo");
+const fileUpload = require("express-fileupload");
 
 const connectDB = require("./config/db");
 const winston = require("./config/winston");
@@ -34,6 +35,8 @@ app.use(expressLayout);
 app.set("view engine", "ejs");
 app.set("layout", "./layouts/main");
 app.set("views", "views");
+
+app.use(fileUpload());
 
 app.use(
   session({
