@@ -1,3 +1,4 @@
+const fs = require("fs");
 const uuid = require("uuid").v4;
 const appRoot = require("app-root-path");
 const sharp = require("sharp");
@@ -90,11 +91,32 @@ exports.editPost = async (req, res) => {
 
     if (post.user.toString() != req.user._id) return res.redirect("/dashboard");
 
-    await Blog.postValidation(req.body);
+    const thumbnail = req.files ? req.files.thumbnail : {};
+    const fileName = `${uuid()}${thumbnail.name}`;
+    const uploadPath = `${appRoot}/public/uploads/thumbnails/${fileName}`;
+
+    if (thumbnail.name) {
+      await Blog.postValidation({ ...req.body, thumbnail });
+
+      await sharp(thumbnail.data)
+        .jpeg({ quality: 40 })
+        .toFile(uploadPath)
+        .catch((err) => get500(req, res, err));
+      req.body = { ...req.body, thumbnail: fileName };
+    } else {
+      // const thumbnailPost = fs
+      //   .(`${appRoot}/public/uploads/thumbnails/${post.thumbnail}`)
+      //   .toString();
+      // console.log(thumbnailPost);
+
+      await Blog.postValidation({ ...req.body, thumbnail: post.thumbnail });
+    }
+
     await Blog.updateOne({ _id: post._id }, { ...req.body });
 
     res.redirect("/dashboard");
   } catch (error) {
+    console.log(error);
     error.inner.forEach((element) => {
       errors.push({
         name: element.path,
