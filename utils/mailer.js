@@ -1,4 +1,3 @@
-const { text } = require("body-parser");
 const nodeMailer = require("nodemailer");
 const smtpTransport = require("nodemailer-smtp-transport");
 
@@ -17,9 +16,15 @@ const transporterDetails = smtpTransport({
 
 const transport = nodeMailer.createTransport(transporterDetails);
 
-exports.sendMail = async (to, subject, text) => {
-  transport.sendMail(
-    { from: process.env.MAIL_USER, to, subject, text },
+exports.sendEmail = async (to, fullname, subject, message) => {
+  transporter.sendMail(
+    {
+      from: process.env.MAIL_USER,
+      to,
+      subject,
+      html: `<h1> سلام ${fullname}</h1>
+            <p>${message}</p>`,
+    },
     (err, info) => {
       if (err) return false;
       return true;

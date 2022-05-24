@@ -1,5 +1,6 @@
 const User = require("../../models/User");
 const { get500 } = require("../errors");
+const { sendEmail } = require("../../utils/mailer");
 
 exports.get = (req, res) => {
   try {
@@ -32,6 +33,8 @@ exports.post = async (req, res) => {
     await User.create({ email, fullname, password });
 
     req.flash("success_msg", "ثبت نام با موفقیت انجام شد.");
+
+    await sendEmail(email, fullname, "ثبت نام موفق", "به وبلاگ ما خوش آمدی");
 
     res.redirect("/auth/login");
   } catch (error) {
