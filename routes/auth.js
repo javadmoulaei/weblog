@@ -4,6 +4,7 @@ const login = require("../controllers/auth/login");
 const register = require("../controllers/auth/register");
 const logout = require("../controllers/auth/logout");
 const remember = require("../controllers/auth/remember");
+const forgetPass = require("../controllers/auth/forgetPass");
 
 const { authenticated } = require("../middleware/auth");
 
@@ -14,6 +15,9 @@ router.post("/login", login.post, remember.post);
 
 router.get("/register", register.get);
 router.post("/register", register.post);
+
+router.get("/forget-password", forgetPass.get);
+router.post("/forget-password", forgetPass.post);
 
 router.get("/logout", authenticated, logout.get);
 
