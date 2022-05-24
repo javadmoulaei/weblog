@@ -1,5 +1,9 @@
+const captcha = require("captchapng");
+
 const { schema } = require("../validation/contact");
 const { sendEmail } = require("../utils/mailer");
+
+let CAPTCHA_NUM;
 
 exports.get = (req, res) => {
   res.render("contact", {
@@ -19,14 +23,16 @@ exports.post = async (req, res) => {
   try {
     await schema.validate(req.body, { abortEarly: false });
 
-    sendEmail(
-      email,
-      fullname,
-      "پیام از طرف وبلاگ",
-      `${message} <br/> ایمیل کاربر : ${email}`
-    );
+    if (+captcha === CAPTCHA_NUM) {
+      sendEmail(
+        email,
+        fullname,
+        "پیام از طرف وبلاگ",
+        `${message} <br/> ایمیل کاربر : ${email}`
+      );
 
-    req.flash("success_msg", "پیام شما با موفقیت ارسال شد");
+      req.flash("success_msg", "پیام شما با موفقیت ارسال شد");
+    } else req.flash("error", "کد امنیتی درست نمیباشد.");
 
     res.render("contact", {
       pageTitle: "تماس با ما",
@@ -50,4 +56,16 @@ exports.post = async (req, res) => {
       errors: errorArr,
     });
   }
+};
+
+exports.getCaptcha = (req, res) => {
+  CAPTCHA_NUM = parseInt(Math.random() * 9000 + 1000);
+  const p = new captcha(80, 30, CAPTCHA_NUM);
+  p.color(0, 0, 0, 0);
+  p.color(80, 80, 80, 255);
+
+  const img = p.getBase64();
+  const imgBase64 = Buffer.from(img, "base64");
+
+  res.send(imgBase64);
 };

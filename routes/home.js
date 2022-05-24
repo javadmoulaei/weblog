@@ -12,4 +12,6 @@ router.get("/posts/:id", blog.getOne);
 router.get("/contact", contact.get);
 router.post("/contact", contact.post);
 
+router.get("/captcha.png", contact.getCaptcha);
+
 module.exports = router;
