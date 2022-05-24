@@ -1,5 +1,7 @@
 const jwt = require("jsonwebtoken");
 
+const User = require("../../models/User");
+
 exports.get = async (req, res) => {
   res.render("forgetPass", {
     pageTitle: "فراموشی رمز عبور",
