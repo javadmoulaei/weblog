@@ -3,6 +3,7 @@ const uuid = require("uuid").v4;
 const appRoot = require("app-root-path");
 const sharp = require("sharp");
 const Blog = require("../../models/Blog");
+const { shamsiDate } = require("../../utils/jalali");
 const { get500 } = require("../errors");
 
 // create post
@@ -148,6 +149,41 @@ exports.delete = async (req, res) => {
 
     return res.redirect("/dashboard");
   } catch (error) {
+    get500(req, res, error);
+  }
+};
+
+exports.search = async (req, res) => {
+  const page = +req.query.page || 1;
+  const limit = 2;
+
+  try {
+    const numberOfPosts = await Blog.find({
+      user: req.user._id,
+      $text: { $search: req.body.search },
+    }).countDocuments();
+    const blogs = await Blog.find({
+      user: req.user.id,
+      $text: { $search: req.body.search },
+    })
+      .skip((page - 1) * limit)
+      .limit(limit);
+
+    res.render("private/blogs", {
+      pageTitle: "بخش مدیریت | داشبورد",
+      path: "/dashboard",
+      layout: "./layouts/dashboard",
+      fullname: req.user.fullname,
+      blogs,
+      shamsiDate,
+      page,
+      nextPage: page + 1,
+      previousPage: page - 1,
+      hasNextPage: limit * page < numberOfPosts,
+      hasPreviousPage: page > 1,
+      lastPage: Math.ceil(numberOfPosts / limit),
+    });
+  } catch (err) {
     get500(req, res, error);
   }
 };
